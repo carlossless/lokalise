@@ -1,0 +1,19 @@
+{
+  "name": "lokalise",
+  "version": "0.0.1",
+  "description": "A tool to retrieve your localization files from lokali.se",
+  "bin": "./bin/lokalise.js",
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "author": "Karolis Stasaitis (carlossless)",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.79.0",
+    "unzip": "^0.1.11"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-env": "^1.1.8"
+  }
+}
