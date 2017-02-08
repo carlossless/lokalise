@@ -7,6 +7,7 @@
     "build": "babel src -d lib"
   },
   "author": "Karolis Stasaitis (carlossless)",
+  "repository": "https://github.com/carlossless/lokalise.git",
   "license": "MIT",
   "dependencies": {
     "request": "^2.79.0",
