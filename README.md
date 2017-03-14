@@ -10,6 +10,6 @@ In your working directory create a `.lokalise.json` file with the following cont
 {
   "api_token": "<YOUR LOKALI.SE API TOKEN>",
   "project_id": "<YOUR PROJECT ID>",
-  "output_path": "<PATH WHERE LOCALIZATION FILES WILL BE PUT"
+  "output_path": "<PATH WHERE LOCALIZATION FILES WILL BE PUT>"
 }
 ```

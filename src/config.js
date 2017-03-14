@@ -1,31 +1,23 @@
 import fs from 'fs'
 
-const exit = (desc, code=1) => {
-  console.error(desc)
-  process.exit(code)
-}
+export const read = () => new Promise((resolve, reject) => {
+  fs.readFile('.lokalise.json', 'utf8', (err, data) => {
+    if (err) return reject('Configuration file ".lokalise.json" not found in working directory.')
+    resolve(data)
+  })
+})
 
-export const read = () => {
+export const parse = async (file) => {
   try {
-    return fs.readFileSync('.lokalise.json', 'utf8')
+    return await JSON.parse(file)
   } catch (err) {
-    exit('Configuration file ".lokalize.json" not found in working directory.')
+    throw 'Couldn\'t parse ".lokalise.json". Is it a valid JSON file?'
   }
 }
 
-export const parse = (file) => {
-  try {
-    return JSON.parse(file)
-  } catch (err) {
-    exit('Couldn\'t parse ".lokalize.json". Is it a valid JSON file?')
-  }
-}
-
-export const validate = ({ api_token, project_id, output_path }) => {
-  if (!api_token || !project_id || !output_path) {
-    if (!api_token) console.error('"api_token" is undefined')
-    if (!project_id) console.error('"project_id" is undefined')
-    if (!output_path) console.error('"output_path" is undefined')
-    process.exit(1)
-  }
+export const validate = async ({ api_token, project_id, output_path }) => {
+  if (!api_token) throw '"api_token" is undefined'
+  if (!project_id) throw '"project_id" is undefined'
+  if (!output_path) throw '"output_path" is undefined'
+  return
 }

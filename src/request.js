@@ -1,7 +1,7 @@
 import request from 'request'
-import unzip from 'unzip'
+import unzipper from 'unzipper'
 
-export const publish = (apiToken, projectId) => new Promise((resolve, reject) => (
+export const archive = (apiToken, projectId) => new Promise((resolve, reject) => (
   request
     .post({
       url: 'https://lokalise.co/api/project/export',
@@ -17,14 +17,9 @@ export const publish = (apiToken, projectId) => new Promise((resolve, reject) =>
       if (err) {
         return reject(err)
       }
+      if (httpResponse.statusCode >= 400) {
+        return reject(`HTTP Error ${httpResponse.statusCode}`)
+      }
       resolve(JSON.parse(body).bundle.file)
     })
-))
-
-export const file = (filename, outputPath) => new Promise((resolve, reject) => (
-  request
-    .get(`https://s3-eu-west-1.amazonaws.com/lokalise-assets/${filename}`)
-    .on('error', (err) => reject(err))
-    .on('data', () => resolve())
-    .pipe(unzip.Extract({ path: outputPath }))
 ))
