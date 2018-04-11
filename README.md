@@ -1,6 +1,8 @@
 # Lokalise - the unofficial node lokali.se client.
 
-### Configuration
+This is all still very WIP.
+
+## Configuration
 
 In your working directory create a `.lokalise.json` file with the following contents:
 
@@ -29,6 +31,6 @@ You can configure the format of this keys file to suit your needs by passing the
 
 Alternatively, passing `"keys_file": true` gives you the all default config - i.e. a `keys.json` file will be output
 
-### Run
+## Run
 
 `yarn lokalise` or `npm run lokalise`

@@ -1,6 +1,6 @@
 {
   "name": "lokalise",
-  "version": "0.0.4",
+  "version": "0.0.3",
   "description": "A tool to retrieve your localization files from lokali.se",
   "bin": "./bin/lokalise.js",
   "scripts": {
