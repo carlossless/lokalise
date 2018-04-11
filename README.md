@@ -33,4 +33,8 @@ Alternatively, passing `"keys_file": true` gives you the all default config - i.
 
 ## Run
 
-`yarn lokalise` or `npm run lokalise`
+The package contains a binary.
+
+You can install globally for example with `npm install -g lokalise` or `yarn global install lokalise`
+
+Or you can install and run it locally, for example with `yarn lokalise`
