@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "lodash": "4.17.5",
     "request": "^2.79.0",
     "unzipper": "^0.8.8"
   },
