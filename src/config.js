@@ -46,10 +46,12 @@ const fetchEnvironmentConfig = () => {
   return config
 }
 
-const validate = ({ token, project, output }) => {
-  if (!token) throw Error('"token" is undefined')
-  if (!project) throw Error('"project" is undefined')
-  if (!output) throw Error('"output" is undefined')
+const validate = (config) => {
+  if (!config.token) throw Error('"token" is undefined')
+  if (!config.project) throw Error('"project" is undefined')
+  if (!config.output) throw Error('"output" is undefined')
+
+  validateKeysFileConfig(config)
 }
 
 export const build = async (file, args) => {
@@ -69,4 +71,34 @@ export const build = async (file, args) => {
   }
 
   return options
+}
+
+const validateKeysFileConfig = (config) => {
+  // it's optional
+  if (!config.keysFile) return
+
+  // must be a boolean or an object
+  if (typeof config.keysFile !== 'boolean' && typeof config.keysFile !== 'object') {
+    throw 'keysFile must be a boolean or an object with { name, type, flow } props'
+  }
+
+  // if it's a config object, validate that
+  if (typeof config.keysFile === 'object') {
+    if (config.keysFile.name && typeof config.keysFile.name !== 'string') {
+      throw 'keysFile.name must be a string'
+    }
+
+    if (config.keysFile.flow && typeof config.keysFile.flow !== 'boolean') {
+      throw 'keysFile.flow must be a boolean'
+    }
+
+    if (
+      config.keysFile.type &&
+      config.keysFile.type !== 'es6_module' &&
+      config.keysFile.type !== 'es5_module' &&
+      config.keysFile.type !== 'json'
+    ) {
+      throw 'keysFile.type must be one of [ json | es6_module | es5_module ]'
+    }
+  }
 }

@@ -31,21 +31,23 @@ const getKeysFileName = (keysFile) => {
   return name
 }
 
-const ES6_MODULE_TEMPLATE = (keyMapJSON, withFlowType) => `
-${withFlowType ? '// @flow' : ''}
-const keys = ${keyMapJSON}
+const ES6_MODULE_TEMPLATE = (keyMapJSON, withFlowType) => (
+  `${withFlowType ? '// @flow' : ''}
+  const keys = ${keyMapJSON}
 
-export default keys
+  export default keys
 
-`
+  `
+)
 
-const ES5_MODULE_TEMPLATE = (keyMapJSON, withFlowType) => `
-${withFlowType ? '// @flow' : ''}
-const keys = ${keyMapJSON}
+const ES5_MODULE_TEMPLATE = (keyMapJSON, withFlowType) => (
+  `${withFlowType ? '// @flow' : ''}
+  var keys = ${keyMapJSON}
 
-module.exports = keys
+  module.exports = keys
 
-`
+  `
+)
 
 const getFileContent = (keyMap, keysFile) => {
   const keyMapJSON = prettyString(keyMap)
