@@ -3,4 +3,4 @@
 node_modules/
 lib/
 output/
-.lokalise.json
+yarn-error.log

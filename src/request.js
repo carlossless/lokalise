@@ -1,5 +1,4 @@
 import request from 'request'
-import unzipper from 'unzipper'
 
 export const archive = (apiToken, projectId) => new Promise((resolve, reject) => (
   request
@@ -10,16 +9,20 @@ export const archive = (apiToken, projectId) => new Promise((resolve, reject) =>
         id: projectId,
         type: 'json',
         bundle_filename: '%PROJECT_NAME%-intl.zip',
-        bundle_structure: '%LANG_ISO%.json'
+        bundle_structure: '%LANG_ISO%.%FORMAT%'
       }
     },
-    (err, httpResponse, body) => {
+    async (err, httpResponse, body) => {
       if (err) {
         return reject(err)
       }
       if (httpResponse.statusCode >= 400) {
-        return reject(`HTTP Error ${httpResponse.statusCode}`)
+        return reject(Error(`HTTP Error ${httpResponse.statusCode}`))
       }
-      resolve(JSON.parse(body).bundle.file)
+      const parsed = await JSON.parse(body)
+      if (parsed.response.status === 'error') {
+        return reject(Error(body))
+      }
+      resolve(parsed.bundle.file)
     })
 ))

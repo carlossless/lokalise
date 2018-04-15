@@ -6,18 +6,18 @@ const prettyString = (object) => JSON.stringify(object, null, 2)
 
 const DEFAULT_FILE_TYPE = 'json'
 
-const getKeysFileName = (keys_file) => {
+const getKeysFileName = (keysFile) => {
   let name = 'keys.'
 
-  if (typeof keys_file !== 'object') {
+  if (typeof keysFile !== 'object') {
     return name + DEFAULT_FILE_TYPE
   }
 
-  if (keys_file.name) {
-    return keys_file.name
+  if (keysFile.name) {
+    return keysFile.name
   }
 
-  switch (keys_file.type) {
+  switch (keysFile.type) {
     case 'es6_module':
       name += 'js'
       break
@@ -47,45 +47,45 @@ module.exports = keys
 
 `
 
-const getFileContent = (keyMap, keys_file) => {
+const getFileContent = (keyMap, keysFile) => {
   const keyMapJSON = prettyString(keyMap)
 
-  switch (keys_file.type) {
+  switch (keysFile.type) {
     case 'es6_module':
-      return ES6_MODULE_TEMPLATE(keyMapJSON, !!keys_file.flow)
+      return ES6_MODULE_TEMPLATE(keyMapJSON, !!keysFile.flow)
     case 'es5_module':
-      return ES5_MODULE_TEMPLATE(keyMapJSON, !!keys_file.flow)
+      return ES5_MODULE_TEMPLATE(keyMapJSON, !!keysFile.flow)
     default:
       return keyMapJSON
   }
 }
 
-export default (output_path, keys_file) => {
-  const keysFileName = getKeysFileName(keys_file)
+export default (outputPath, keysFile) => {
+  const keysFileName = getKeysFileName(keysFile)
 
-  const files = fs.readdirSync(output_path)
+  const files = fs.readdirSync(outputPath)
 
   if (!files || files.length === 0) {
-    throw 'Could not create keys file, no messages files exist'
+    throw Error('Could not create keys file, no messages files exist')
   }
 
   const keyMap = {}
 
   // assumption: all files have the same message keys
   // anyway the source file is logged, for info purposes
-  const firstMessagesFilePath = `${output_path}/${files[0]}`
+  const firstMessagesFilePath = `${outputPath}/${files[0]}`
   const firstMessagesFileContent = JSON.parse(
-    fs.readFileSync(firstMessagesFilePath, 'utf8'),
+    fs.readFileSync(firstMessagesFilePath, 'utf8')
   )
 
   keys(firstMessagesFileContent).forEach((key) => {
     keyMap[key] = key
   })
 
-  const keysFilePath = `${output_path}/${keysFileName}`
-  fs.writeFileSync(keysFilePath, getFileContent(keyMap, keys_file), 'utf8')
+  const keysFilePath = `${outputPath}/${keysFileName}`
+  fs.writeFileSync(keysFilePath, getFileContent(keyMap, keysFile), 'utf8')
 
   console.log(
-    `Created keys file\n    > ${keysFilePath}\n  using message keys from\n    > ${firstMessagesFilePath}\n`,
+    `Created keys file\n    > ${keysFilePath}\n  using message keys from\n    > ${firstMessagesFilePath}\n`
   )
 }
