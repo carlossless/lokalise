@@ -2,7 +2,7 @@ import 'babel-polyfill'
 import program from 'commander'
 import * as config from './config'
 import * as request from './request'
-import download from './download'
+import * as download from './download'
 import createKeysFile from './generation/keys'
 
 program
@@ -19,7 +19,7 @@ const main = async () => {
     const conf = await config.build(program.args[0], program)
     const { token, project, output } = conf
     const file = await request.archive(token, project)
-    await download(file, output)
+    await download.file(file, output)
 
     if (conf.keysFile) {
       createKeysFile(conf.output, conf.keysFile)
