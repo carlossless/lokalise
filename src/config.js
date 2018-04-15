@@ -1,23 +1,72 @@
-import fs from 'fs'
+import pick from 'lodash/pick'
+import read from './fs/read'
+import rename from './object/rename'
 
-export const read = () => new Promise((resolve, reject) => {
-  fs.readFile('.lokalise.json', 'utf8', (err, data) => {
-    if (err) return reject('Configuration file ".lokalise.json" not found in working directory.')
-    resolve(data)
-  })
-})
-
-export const parse = async (file) => {
+const readFile = async (file) => {
   try {
-    return await JSON.parse(file)
+    return await read(file || '.lokalise.json')
   } catch (err) {
-    throw 'Couldn\'t parse ".lokalise.json". Is it a valid JSON file?'
+    if (file) {
+      throw err
+    }
   }
 }
 
-export const validate = async ({ api_token, project_id, output_path }) => {
-  if (!api_token) throw '"api_token" is undefined'
-  if (!project_id) throw '"project_id" is undefined'
-  if (!output_path) throw '"output_path" is undefined'
-  return
+const bridgeLegacy = (opts) => (
+  {
+    ...rename(
+      opts,
+      ['api_token', 'project_id', 'output_path'],
+      ['token', 'project', 'output']
+    ),
+    ...pick(opts, ['token', 'project', 'output'])
+  }
+)
+
+const fetchFileConfig = async (file) => {
+  const contents = await readFile(file)
+  if (contents) {
+    const config = JSON.parse(contents)
+    return bridgeLegacy(config)
+  }
+  return null
+}
+
+const fetchEnvironmentConfig = () => {
+  let config = {}
+  if (process.env.LOKALISE_TOKEN) {
+    config.token = process.env.LOKALISE_TOKEN
+  }
+  if (process.env.LOKALISE_PROJECT) {
+    config.project = process.env.LOKALISE_PROJECT
+  }
+  if (process.env.LOKALISE_OUTPUT) {
+    config.output = process.env.LOKALISE_OUTPUT
+  }
+  return config
+}
+
+const validate = ({ token, project, output }) => {
+  if (!token) throw Error('"token" is undefined')
+  if (!project) throw Error('"project" is undefined')
+  if (!output) throw Error('"output" is undefined')
+}
+
+export const build = async (file, args) => {
+  const envOptions = fetchEnvironmentConfig()
+  const fileOptions = await fetchFileConfig(file) || {}
+  const argOptions = pick(args, ['token', 'project', 'output'])
+
+  const options = { ...envOptions, ...fileOptions, ...argOptions }
+
+  try {
+    validate(options)
+  } catch (err) {
+    if (Object.keys(fileOptions).length === 0) {
+      console.warn('HINT: It seems that you don\'t have a .lokalise.json file in your directory or you haven\'t specified any options in it.')
+    }
+    throw err
+  }
+
+  return options
 }
