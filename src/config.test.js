@@ -70,4 +70,10 @@ describe('config', () => {
 
     await expect(config.build('fixtures/.lokalise.partial.json', { })).rejects.toBeInstanceOf(Error)
   })
+
+  it('fails when no file found', async () => {
+    expect.assertions(1)
+
+    await expect(config.build('fixtures/.lokalise.nothing.json', { })).rejects.toHaveProperty('code', 'ENOENT')
+  })
 })

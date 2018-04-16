@@ -27,7 +27,7 @@ const responses = {
   }
 }
 
-const mockTransaction = (code, data) => {
+const mockTransaction = () => (
   nock('https://lokalise.co')
     .post('/api/project/export', {
       api_token: apiToken,
@@ -36,8 +36,7 @@ const mockTransaction = (code, data) => {
       bundle_filename: '%PROJECT_NAME%-intl.zip',
       bundle_structure: '%LANG_ISO%.%FORMAT%'
     })
-    .reply(code, data)
-}
+)
 
 describe('request', () => {
   beforeAll(() => {
@@ -50,19 +49,29 @@ describe('request', () => {
 
   it('requests, parses the response and returns the file path', async () => {
     expect.assertions(1)
-    mockTransaction(200, responses.success)
+    mockTransaction().reply(200, responses.success)
+
     await expect(await archive(apiToken, projectId)).toEqual(responses.success.bundle.file)
   })
 
   it('throws on a non 200 status response', async () => {
     expect.assertions(1)
-    mockTransaction(400, {})
+    mockTransaction().reply(400, {})
+
     await expect(archive(apiToken, projectId)).rejects.toBeInstanceOf(Error)
   })
 
   it('throws if the payload has an error payload', async () => {
     expect.assertions(1)
-    mockTransaction(200, responses.error)
+    mockTransaction().reply(200, responses.error)
+
+    await expect(archive(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+  })
+
+  it('throws if request encountered an error', async () => {
+    expect.assertions(1)
+    mockTransaction().replyWithError('Oops!')
+
     await expect(archive(apiToken, projectId)).rejects.toBeInstanceOf(Error)
   })
 })
