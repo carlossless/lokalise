@@ -3,4 +3,5 @@
 node_modules/
 lib/
 output/
+coverage/
 yarn-error.log

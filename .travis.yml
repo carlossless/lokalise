@@ -1,1 +1,6 @@
 language: node_js
+
+script:
+- yarn lint
+- yarn test && yarn codecov
+- yarn build
