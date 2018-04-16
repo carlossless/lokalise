@@ -40,6 +40,7 @@ describe('download', () => {
       'de.json',
       'en.json',
       'fr.json',
+      'he.json',
       'ja.json',
       'ru.json',
       'zh_CN.json'
