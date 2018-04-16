@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/carlossless/lokalise.svg?branch=master)](https://travis-ci.org/carlossless/lokalise) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status](https://travis-ci.org/carlossless/lokalise.svg?branch=master)](https://travis-ci.org/carlossless/lokalise) [![codecov](https://codecov.io/gh/carlossless/lokalise/branch/master/graph/badge.svg)](https://codecov.io/gh/carlossless/lokalise) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 
 # Lokalise - the unofficial node lokali.se client.
