@@ -1,6 +1,6 @@
 import request from 'request'
 
-export const archive = (apiToken, projectId) => new Promise((resolve, reject) => (
+export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => (
   request
     .post({
       url: 'https://lokalise.co/api/project/export',

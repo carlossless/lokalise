@@ -1,28 +1,48 @@
 [![Build Status](https://travis-ci.org/carlossless/lokalise.svg?branch=master)](https://travis-ci.org/carlossless/lokalise) [![codecov](https://codecov.io/gh/carlossless/lokalise/branch/master/graph/badge.svg)](https://codecov.io/gh/carlossless/lokalise) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 
-# Lokalise - the unofficial node lokali.se client.
+# lokalise
 
-This is all still very WIP.
+An unofficial node client for [lokalise](https://lokali.se) to import and update localizations.
 
-## Configuration
+## Usage
 
-In your working directory create a `.lokalise.json` file with the following contents:
+```
+  Usage: lokalise [options] [config.json]
+
+  Lokali.se client for retrieving localization files.
+
+  Options:
+
+    -V, --version        output the version number
+    -t, --token <token>  set the api token
+    -p, --project <id>   set the project id
+    -o, --output <path>  output Path
+    -h, --help           output usage information
+```
+
+### .lokalise.json
+
+If no `config.json` file argument is given `lokalise` will search for a `.lokalise.json` file in the work dir. This is useful for having different configurations per different project.
+
+Any `config.json` file should have the following structure:
 
 ```
 {
-  "api_token": [string] (required) Your locali.se api token,
-  "project_id": [string] (required) Your locali.se project ID,
-  "output_path": [string (required) Path where messages files will be downloaded,
+  "token": [string] (required) Your locali.se api token,
+  "project": [string] (required) Your locali.se project ID,
+  "output": [string (required) Path where message files will be stored,
   "keys_file": [boolean | object] (optional, default false) Creates a keys file under output_path (more below)
 }
 ```
 
-The optional `keys_file` configuration creates a file under `output_path` that enumerates your locali.se message keys.
+Most of these options can also be provided via one or more of the overriding command arguments or environment variables. See [src/config.js](src/config.js) for more details.
 
+### Keys File
+
+The optional `keys_file` configuration creates a file under the output path that enumerates your localise message keys.
 This may be very useful in your code, for autocompletion & type checking over the allowable message keys, for example.
-
-You can configure the format of this keys file to suit your needs by passing the following object:
+You can configure the format of the keys file to suit your needs by passing the following object:
 
 ```
 {
@@ -33,11 +53,3 @@ You can configure the format of this keys file to suit your needs by passing the
 ```
 
 Alternatively, passing `"keys_file": true` gives you the all default config - i.e. a `keys.json` file will be output
-
-## Run
-
-The package contains a binary.
-
-You can install globally for example with `npm install -g lokalise` or `yarn global install lokalise`
-
-Or you can install and run it locally, for example with `yarn lokalise`

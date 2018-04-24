@@ -2,14 +2,15 @@
   "name": "lokalise",
   "version": "0.0.4",
   "description": "A tool to retrieve your localization files from lokali.se",
+  "keywords": ["lokalise", "lokali.se", "localization", "translation"],
   "bin": "./bin/lokalise.js",
   "scripts": {
     "build": "babel src -d lib --ignore *.test.js",
     "test": "jest",
     "lint": "standard"
   },
-  "author": "Karolis Stasaitis (carlossless)",
-  "repository": "https://github.com/carlossless/lokalise.git",
+  "author": "Karolis Stasaitis <contact@carlossless.io> (https://carlossless.io)",
+  "repository": "github:carlossless/lokalise",
   "license": "MIT",
   "jest": {
     "coverageDirectory": "./coverage/",

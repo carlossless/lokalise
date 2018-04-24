@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import download from './download'
+import * as download from './download'
 import nock from 'nock'
 import rimraf from 'rimraf'
 import fs from 'fs'
@@ -14,64 +14,66 @@ const mockTransaction = () => (
 )
 
 describe('download', () => {
-  beforeAll(() => {
-    nock.disableNetConnect()
-  })
+  describe('archive', () => {
+    beforeAll(() => {
+      nock.disableNetConnect()
+    })
 
-  afterAll(() => {
-    nock.enableNetConnect()
-  })
+    afterAll(() => {
+      nock.enableNetConnect()
+    })
 
-  afterEach(() => {
-    if (fs.existsSync(outputDir)) {
-      rimraf.sync(outputDir)
-    }
-  })
+    afterEach(() => {
+      if (fs.existsSync(outputDir)) {
+        rimraf.sync(outputDir)
+      }
+    })
 
-  it('downloads and unzips translation payload', async () => {
-    expect.assertions(2)
-    mockTransaction().replyWithFile(
-      200,
-      path.join(__dirname, '../fixtures/complete.zip'),
-      { 'Content-Type': 'application/zip' }
-    )
+    it('downloads and unzips translation payload', async () => {
+      expect.assertions(2)
+      mockTransaction().replyWithFile(
+        200,
+        path.join(__dirname, '../fixtures/complete.zip'),
+        { 'Content-Type': 'application/octet-stream' }
+      )
 
-    await download('test.zip', outputDir)
+      await download.archive('test.zip', outputDir)
 
-    expect(fs.existsSync(outputDir)).toEqual(true)
-    expect(fs.readdirSync(outputDir)).toEqual([
-      'de.json',
-      'en.json',
-      'fr.json',
-      'he.json',
-      'ja.json',
-      'ru.json',
-      'zh_CN.json'
-    ])
-  })
+      expect(fs.existsSync(outputDir)).toEqual(true)
+      expect(fs.readdirSync(outputDir)).toEqual([
+        'de.json',
+        'en.json',
+        'fr.json',
+        'he.json',
+        'ja.json',
+        'ru.json',
+        'zh_CN.json'
+      ])
+    })
 
-  it('throws when a corrupted file is donwloaded', async () => {
-    expect.assertions(1)
-    mockTransaction().replyWithFile(
-      200,
-      path.join(__dirname, '../fixtures/partial.zip'),
-      { 'Content-Type': 'application/zip' }
-    )
+    it('throws when a corrupted file is downloaded', async () => {
+      expect.assertions(1)
+      mockTransaction().replyWithFile(
+        200,
+        path.join(__dirname, '../fixtures/partial.zip'),
+        { 'Content-Type': 'application/octet-stream' }
+      )
 
-    await expect(download('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
-  })
+      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+    })
 
-  it('throws when response has non successful code', async () => {
-    expect.assertions(1)
-    mockTransaction().reply(400, 'Not Found')
+    it('throws when response has non successful code', async () => {
+      expect.assertions(1)
+      mockTransaction().reply(400, 'Not Found')
 
-    await expect(download('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
-  })
+      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+    })
 
-  it('throws when response has non zip content-type', async () => {
-    expect.assertions(1)
-    mockTransaction().reply(200, 'Not a zip file!', { 'Content-Type': 'text/plain' })
+    it('throws when response has non zip content-type', async () => {
+      expect.assertions(1)
+      mockTransaction().reply(200, 'Not a zip file!', { 'Content-Type': 'text/plain' })
 
-    await expect(download('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+    })
   })
 })

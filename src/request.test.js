@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-import { archive } from './request'
+import * as request from './request'
 import nock from 'nock'
 
 const apiToken = 'apiToken'
@@ -39,39 +39,41 @@ const mockTransaction = () => (
 )
 
 describe('request', () => {
-  beforeAll(() => {
-    nock.disableNetConnect()
-  })
+  describe('bundle', () => {
+    beforeAll(() => {
+      nock.disableNetConnect()
+    })
 
-  afterAll(() => {
-    nock.enableNetConnect()
-  })
+    afterAll(() => {
+      nock.enableNetConnect()
+    })
 
-  it('requests, parses the response and returns the file path', async () => {
-    expect.assertions(1)
-    mockTransaction().reply(200, responses.success)
+    it('requests, parses the response and returns the file path', async () => {
+      expect.assertions(1)
+      mockTransaction().reply(200, responses.success)
 
-    await expect(await archive(apiToken, projectId)).toEqual(responses.success.bundle.file)
-  })
+      await expect(request.bundle(apiToken, projectId)).resolves.toEqual(responses.success.bundle.file)
+    })
 
-  it('throws on a non 200 status response', async () => {
-    expect.assertions(1)
-    mockTransaction().reply(400, {})
+    it('throws on a non 200 status response', async () => {
+      expect.assertions(1)
+      mockTransaction().reply(400, {})
 
-    await expect(archive(apiToken, projectId)).rejects.toBeInstanceOf(Error)
-  })
+      await expect(request.bundle(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+    })
 
-  it('throws if the payload has an error payload', async () => {
-    expect.assertions(1)
-    mockTransaction().reply(200, responses.error)
+    it('throws if the payload has an error payload', async () => {
+      expect.assertions(1)
+      mockTransaction().reply(200, responses.error)
 
-    await expect(archive(apiToken, projectId)).rejects.toBeInstanceOf(Error)
-  })
+      await expect(request.bundle(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+    })
 
-  it('throws if request encountered an error', async () => {
-    expect.assertions(1)
-    mockTransaction().replyWithError('Oops!')
+    it('throws if request encountered an error', async () => {
+      expect.assertions(1)
+      mockTransaction().replyWithError('Oops!')
 
-    await expect(archive(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+      await expect(request.bundle(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+    })
   })
 })
