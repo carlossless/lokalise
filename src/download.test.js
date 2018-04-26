@@ -40,7 +40,7 @@ describe('download', () => {
       await download.archive('test.zip', outputDir)
 
       expect(fs.existsSync(outputDir)).toEqual(true)
-      expect(fs.readdirSync(outputDir)).toEqual([
+      expect(fs.readdirSync(outputDir)).toEqual(expect.arrayContaining([
         'de.json',
         'en.json',
         'fr.json',
@@ -48,7 +48,7 @@ describe('download', () => {
         'ja.json',
         'ru.json',
         'zh_CN.json'
-      ])
+      ]))
     })
 
     it('throws when a corrupted file is downloaded', async () => {

@@ -1,0 +1,10 @@
+{
+  "token": "f99e5a8a45345745d6aa49327dbbcba54b9d2f3e",
+  "project": "796277985a61b2cdc3bd15.32504586",
+  "output": "output/path",
+  "keysFile": {
+    "name": "keys.js",
+    "type": "es6_module",
+    "flow": "true" 
+  }
+}

@@ -67,9 +67,12 @@ describe('config', () => {
     })
 
     it('fails when not all required values are not collected', async () => {
-      expect.assertions(1)
+      expect.assertions(4)
 
       await expect(config.build('fixtures/.lokalise.partial.json', { })).rejects.toBeInstanceOf(Error)
+      await expect(config.build('fixtures/.lokalise.json', { project: '' })).rejects.toBeInstanceOf(Error)
+      await expect(config.build('fixtures/.lokalise.json', { output: '' })).rejects.toBeInstanceOf(Error)
+      await expect(config.build('', { })).rejects.toBeInstanceOf(Error)
     })
 
     it('fails when no file found', async () => {
