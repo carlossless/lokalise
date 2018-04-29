@@ -4,7 +4,7 @@
   "output": "output/path",
   "keysFile": {
     "name": "keys.js",
-    "type": "es6_module",
-    "flow": "true" 
+    "type": "es6",
+    "flow": true
   }
 }
