@@ -12,7 +12,7 @@ const KEYS_FILE_CONFIG_DEFAULT = {
 const validateKeysFileConfig = (candidate) => {
   for (const field in candidate) {
     if (!includes(['name', 'type', 'flow'], field)) {
-      throw `Invalid $[{field}] field passed in keysFile config`
+      throw Error(`Invalid $[{field}] field passed in keysFile config`)
     }
   }
 
@@ -20,7 +20,7 @@ const validateKeysFileConfig = (candidate) => {
     candidate.name !== undefined &&
     typeof candidate.name !== 'string'
   ) {
-    throw `keysFile.name must be a string`
+    throw Error(`keysFile.name must be a string`)
   }
 
   if (
@@ -28,13 +28,13 @@ const validateKeysFileConfig = (candidate) => {
     typeof candidate.type !== 'string'
   ) {
     if (typeof candidate.type !== 'string') {
-      throw `keysFile.name must be a string`
+      throw Error(`keysFile.name must be a string`)
     } else if (
       candidate.type !== 'json' &&
       candidate.type !== 'es5' &&
       candidate.type !== 'es6'
     ) {
-      throw `keysFile.name must be one of { 'json', 'es5', 'es6' }`
+      throw Error(`keysFile.name must be one of { 'json', 'es5', 'es6' }`)
     }
   }
 
@@ -42,7 +42,7 @@ const validateKeysFileConfig = (candidate) => {
     candidate.flow !== undefined &&
     typeof candidate.flow !== 'boolean'
   ) {
-    throw `keysFile.flow must be a boolean`
+    throw Error(`keysFile.flow must be a boolean`)
   }
 }
 
@@ -51,7 +51,6 @@ const populateUndefinedKeyFilesConfigValuesWithDefaults = (keyFiles) => ({
   type: keyFiles.type || KEYS_FILE_CONFIG_DEFAULT.type,
   flow: keyFiles.flow || KEYS_FILE_CONFIG_DEFAULT.flow
 })
-
 
 const readFile = async (file) => {
   try {

@@ -33,5 +33,10 @@
     "nock": "^9.2.5",
     "rimraf": "^2.6.2",
     "standard": "^11.0.1"
+  },
+  "standard": {
+    "ignore": [
+      "lib"
+    ]
   }
 }
