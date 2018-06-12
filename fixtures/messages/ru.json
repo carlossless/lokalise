@@ -1,0 +1,13 @@
+{
+    "index.placeholder": "Тут явно нехватает маркера вставки ;)",
+    "index.blabla": "",
+    "app.login.pass": "",
+    "app.users.active": {
+        "one": "",
+        "few": "",
+        "many": "",
+        "other": ""
+    },
+    "main.country": "",
+    "index.welcome": "Добро пожаловать в Lokalise! \nПопробуйте нажать любой перевод с пометкой \"Empty\", чтобы увидеть предложенный машинный перевод."
+}

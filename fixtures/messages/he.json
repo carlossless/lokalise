@@ -1,0 +1,13 @@
+{
+    "index.placeholder": "",
+    "index.blabla": "",
+    "app.login.pass": "הסיסמה",
+    "app.users.active": {
+        "one": "",
+        "two": "",
+        "many": "",
+        "other": ""
+    },
+    "main.country": "בחר מדינה",
+    "index.welcome": ""
+}

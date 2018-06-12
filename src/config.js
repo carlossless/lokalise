@@ -1,10 +1,11 @@
+import fs from 'fs'
+import promisify from 'util.promisify'
 import pick from 'lodash/pick'
-import read from './fs/read'
 import rename from './object/rename'
 
 const readFile = async (file) => {
   try {
-    return await read(file || '.lokalise.json')
+    return await promisify(fs.readFile)(file || '.lokalise.json', 'utf8')
   } catch (err) {
     if (file) {
       throw err

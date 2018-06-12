@@ -1,20 +1,26 @@
 /* eslint-env jest */
 
 import main from './main'
-import rimraf from 'rimraf'
-import fs from 'fs'
+import fs from 'fs-extra'
 
 const outputDir = 'output/path'
 
-describe('main', () => {
+let describeWithToken = describe.skip
+if (process.env.LOKALISE_TOKEN) {
+  describeWithToken = describe
+} else {
+  console.error('Skipping integration test because LOKALISE_TOKEN is not specified')
+}
+
+describeWithToken('main', () => {
   afterEach(() => {
     if (fs.existsSync(outputDir)) {
-      rimraf.sync(outputDir)
+      fs.removeSync(outputDir)
     }
   })
 
   it('successfully retrieves and stores localizations', async () => {
-    process.argv = ['lokalise', 'main.js', 'fixtures/.lokalise.json']
+    process.argv = ['lokalise', 'main.js', 'fixtures/.lokalise.partial.json']
 
     await main()
 
@@ -31,7 +37,7 @@ describe('main', () => {
   })
 
   it('successfully creates a keys file', async () => {
-    process.argv = ['lokalise', 'main.js', 'fixtures/.lokalise.keys.json']
+    process.argv = ['lokalise', 'main.js', 'fixtures/.lokalise.partial.keys.json']
 
     await main()
 
@@ -49,7 +55,7 @@ describe('main', () => {
   })
 
   it('fails to retrieve localizations', async () => {
-    process.argv = ['lokalise', 'main.js', 'fixtures/.lokalise.json', '--token', 'bad_token']
+    process.argv = ['lokalise', 'main.js', 'fixtures/.lokalise.partial.json', '--token', 'bad_token']
 
     await main()
 
