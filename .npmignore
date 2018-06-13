@@ -1,3 +1,4 @@
 .babelrc
 .lokalise.json
 output/
+coverage/
