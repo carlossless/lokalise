@@ -2,8 +2,7 @@
 
 import * as download from './download'
 import nock from 'nock'
-import rimraf from 'rimraf'
-import fs from 'fs'
+import fs from 'fs-extra'
 import path from 'path'
 
 const outputDir = 'output_test'
@@ -25,7 +24,7 @@ describe('download', () => {
 
     afterEach(() => {
       if (fs.existsSync(outputDir)) {
-        rimraf.sync(outputDir)
+        fs.removeSync(outputDir)
       }
     })
 

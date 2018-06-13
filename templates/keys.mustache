@@ -1,0 +1,10 @@
+{{#flow}}
+// @flow
+{{/flow}}
+const keys = {{{keys}}}
+{{#es5}}
+module.exports = keys
+{{/es5}}
+{{#es6}}
+export default keys
+{{/es6}}

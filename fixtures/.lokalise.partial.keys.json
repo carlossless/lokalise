@@ -1,0 +1,9 @@
+{
+  "project": "796277985a61b2cdc3bd15.32504586",
+  "output": "output/path",
+  "keys": {
+    "output": "output/path/keys.js",
+    "type": "es6",
+    "flow": true 
+  }
+}

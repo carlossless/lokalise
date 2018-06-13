@@ -32,7 +32,7 @@ Any `config.json` file should have the following structure:
   "token": [string] (required) Your locali.se api token,
   "project": [string] (required) Your locali.se project ID,
   "output": [string (required) Path where message files will be stored,
-  "keys_file": [boolean | object] (optional, default false) Creates a keys file under output_path (more below)
+  "keys": [object] (optional, default false) Creates a keys file under output_path (read more about it bellow)
 }
 ```
 
@@ -40,16 +40,14 @@ Most of these options can also be provided via one or more of the overriding com
 
 ### Keys File
 
-The optional `keys_file` configuration creates a file under the output path that enumerates your localise message keys.
+The optional `keys` configuration fragment creates a file in the specified output path that enumerates your localise message keys.
 This may be very useful in your code, for autocompletion & type checking over the allowable message keys, for example.
 You can configure the format of the keys file to suit your needs by passing the following object:
 
 ```
 {
-  name: [string] (optional) A name for the keys file, defaults to keys.{type-appropriate-file-extension},
-  type: 'json' | 'es6_module' | 'es5_module' (optional, default 'json') the type of the output keys file
-  flow: [boolean] (optional, default false) in the case {type} is a js module, adds a //@flow annotation at the top so that the keys can be used with flow type checking
+  output: [string] (optional) A name for the keys file, defaults to output/keys.js,
+  type: 'es5' | 'es6' (optional, defaults to es5) the output module type,
+  flow: [boolean] (optional, default false) if true adds a //@flow annotation at the top so that the keys can be used with flow type checking
 }
 ```
-
-Alternatively, passing `"keys_file": true` gives you the all default config - i.e. a `keys.json` file will be output
