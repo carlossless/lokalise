@@ -1,6 +1,6 @@
 {
   "name": "lokalise",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A tool to retrieve your localization files from lokali.se",
   "keywords": [
     "lokalise",

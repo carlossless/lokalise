@@ -2,3 +2,5 @@
 .lokalise.json
 output/
 coverage/
+fixtures/
+
