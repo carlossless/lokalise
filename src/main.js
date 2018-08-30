@@ -25,9 +25,9 @@ module.exports = async () => {
       await generateKeys(conf.output, conf.keys)
     }
 
-    console.log('Localization updated')
+    console.error('Localization updated')
   } catch (err) {
-    console.log('Localization update failed')
-    console.error(err)
+    console.error('Localization update failed')
+    throw err
   }
 }

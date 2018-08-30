@@ -43,21 +43,22 @@ describeWithToken('main', () => {
 
     expect(fs.existsSync(outputDir)).toEqual(true)
     expect(fs.readdirSync(outputDir)).toEqual(expect.arrayContaining([
+      'keys.js',
       'de.json',
       'en.json',
       'fr.json',
       'he.json',
       'ja.json',
-      'keys.js',
       'ru.json',
       'zh_CN.json'
     ]))
   })
 
   it('fails to retrieve localizations', async () => {
-    process.argv = ['lokalise', 'main.js', 'fixtures/.lokalise.partial.json', '--token', 'bad_token']
+    expect.assertions(2)
+    process.argv = ['lokalise', 'main.js', '--token', 'bad_token', 'fixtures/.lokalise.partial.json']
 
-    await main()
+    await expect(main()).rejects.toBeInstanceOf(Error)
 
     expect(fs.existsSync(outputDir)).toEqual(false)
   })
