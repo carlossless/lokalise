@@ -17,8 +17,8 @@ module.exports = async () => {
 
   try {
     const conf = await config.build(program.args[0], program)
-    const { token, project, output } = conf
-    const file = await request.bundle(token, project)
+    const { token, project, output, extraApiParams } = conf
+    const file = await request.bundle(token, project, extraApiParams)
     await download.archive(file, output)
 
     if (conf.keys) {
