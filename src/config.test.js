@@ -37,6 +37,21 @@ describe('config', () => {
       })
     })
 
+    it('env values override file values', async () => {
+      expect.assertions(1)
+
+      process.env.LOKALISE_TOKEN = 'test_token_env'
+      process.env.LOKALISE_PROJECT = 'test_project_env'
+      process.env.LOKALISE_OUTPUT = 'test_output_env'
+      const conf = await config.build('fixtures/.lokalise.json', { })
+
+      expect(conf).toEqual({
+        token: 'test_token_env',
+        project: 'test_project_env',
+        output: 'test_output_env'
+      })
+    })
+
     it('loads all option config values', async () => {
       expect.assertions(1)
 
