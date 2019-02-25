@@ -19,6 +19,7 @@ describe('download', () => {
     })
 
     afterAll(() => {
+      nock.cleanAll()
       nock.enableNetConnect()
     })
 
