@@ -30,7 +30,7 @@
     "babel-polyfill": "^6.23.0",
     "fs-extra": "^6.0.1",
     "glob-promise": "^3.4.0",
-    "lodash": "4.17.5",
+    "lodash": "^4.17.5",
     "mustache": "^2.3.0",
     "request": "^2.79.0",
     "unzip-stream": "^0.3.0",
