@@ -4,10 +4,11 @@ import * as config from './config'
 import * as request from './request'
 import * as download from './download'
 import generateKeys from './generation/keys'
+import { version } from '../package.json'
 
 module.exports = async () => {
   program
-    .version('0.0.6')
+    .version(version)
     .usage('[options] [config.json]')
     .description('Lokali.se client for retrieving localization files.')
     .option('-t, --token <token>', 'set the api token')
