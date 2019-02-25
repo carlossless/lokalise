@@ -58,7 +58,7 @@ export const build = async (file, args) => {
   const fileOptions = await fetchFileConfig(file) || {}
   const argOptions = pick(args, ['token', 'project', 'output'])
 
-  const options = { ...envOptions, ...fileOptions, ...argOptions }
+  const options = { ...fileOptions, ...envOptions, ...argOptions }
 
   try {
     validate(options)
