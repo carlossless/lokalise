@@ -51,6 +51,7 @@ describe('request', () => {
     })
 
     afterAll(() => {
+      nock.cleanAll()
       nock.enableNetConnect()
     })
 
