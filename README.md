@@ -32,7 +32,8 @@ Any `config.json` file should have the following structure:
   "token": [string] (required) Your locali.se api token,
   "project": [string] (required) Your locali.se project ID,
   "output": [string (required) Path where message files will be stored,
-  "keys": [object] (optional, default false) Creates a keys file under output_path (read more about it bellow)
+  "keys": [object] (optional, default false) Creates a keys file under output_path (read more about it bellow),
+  "extraApiParams": [object] (optional, default null) Extra params to pass to project export API call
 }
 ```
 
@@ -51,3 +52,9 @@ You can configure the format of the keys file to suit your needs by passing the 
   flow: [boolean] (optional, default false) if true adds a //@flow annotation at the top so that the keys can be used with flow type checking
 }
 ```
+
+### Extra API Params
+
+You can pass extra parameters to the API call that is made internally to fetch translations. For example you might want to pass `{ "export_empty": "skip" }` to skip exporting empty translations.
+
+Those parameters are documented in https://lokalise.co/apidocs/#export

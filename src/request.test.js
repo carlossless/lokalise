@@ -27,16 +27,22 @@ const responses = {
   }
 }
 
-const mockTransaction = () => (
-  nock('https://lokalise.co')
-    .post('/api/project/export', {
-      api_token: apiToken,
-      id: projectId,
-      type: 'json',
-      bundle_filename: '%PROJECT_NAME%-intl.zip',
-      bundle_structure: '%LANG_ISO%.%FORMAT%'
-    })
-)
+const mockTransaction = (extraParams = null) => {
+  let params = {
+    api_token: apiToken,
+    id: projectId,
+    type: 'json',
+    bundle_filename: '%PROJECT_NAME%-intl.zip',
+    bundle_structure: '%LANG_ISO%.%FORMAT%'
+  }
+
+  if (extraParams) {
+    Object.assign(params, extraParams)
+  }
+
+  return nock('https://lokalise.co')
+    .post('/api/project/export', params)
+}
 
 describe('request', () => {
   describe('bundle', () => {
@@ -54,6 +60,18 @@ describe('request', () => {
       mockTransaction().reply(200, responses.success)
 
       await expect(request.bundle(apiToken, projectId)).resolves.toEqual(responses.success.bundle.file)
+    })
+
+    it('request includes optional extra params', async () => {
+      const extraParams = {
+        'export_empty': 'skip',
+        'indentation': '4sp'
+      }
+
+      expect.assertions(1)
+      mockTransaction(extraParams).reply(200, responses.success)
+
+      await expect(request.bundle(apiToken, projectId, extraParams)).resolves.toEqual(responses.success.bundle.file)
     })
 
     it('throws on a non 200 status response', async () => {

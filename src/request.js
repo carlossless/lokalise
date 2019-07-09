@@ -1,16 +1,22 @@
 import request from 'request'
 
-export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => (
+export const bundle = (apiToken, projectId, extraApiParams = null) => new Promise((resolve, reject) => {
+  let options = {
+    api_token: apiToken,
+    id: projectId,
+    type: 'json',
+    bundle_filename: '%PROJECT_NAME%-intl.zip',
+    bundle_structure: '%LANG_ISO%.%FORMAT%'
+  }
+
+  if (extraApiParams && typeof extraApiParams === 'object') {
+    Object.assign(options, extraApiParams)
+  }
+
   request
     .post({
       url: 'https://lokalise.co/api/project/export',
-      form: {
-        api_token: apiToken,
-        id: projectId,
-        type: 'json',
-        bundle_filename: '%PROJECT_NAME%-intl.zip',
-        bundle_structure: '%LANG_ISO%.%FORMAT%'
-      }
+      form: options
     },
     async (err, httpResponse, body) => {
       if (err) {
@@ -25,4 +31,4 @@ export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => 
       }
       resolve(parsed.bundle.file)
     })
-))
+})
