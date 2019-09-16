@@ -28,11 +28,9 @@ const responses = {
 }
 
 const mockTransaction = () => (
-  nock('https://lokalise.co')
-    .post('/api/project/export', {
-      api_token: apiToken,
-      id: projectId,
-      type: 'json',
+  nock('https://api.lokalise.co', { reqheaders: { 'x-api-token': apiToken } })
+    .post(`/api2/projects/${projectId}/files/download`, {
+      format: 'json',
       bundle_filename: '%PROJECT_NAME%-intl.zip',
       bundle_structure: '%LANG_ISO%.%FORMAT%'
     })
@@ -74,7 +72,7 @@ describe('request', () => {
       expect.assertions(1)
       mockTransaction().replyWithError('Oops!')
 
-      await expect(request.bundle(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+      await expect(request.bundle(apiToken, projectId)).rejects.toBeUndefined()
     })
   })
 })

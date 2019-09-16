@@ -1,28 +1,20 @@
-import request from 'request'
+import { LokaliseApi } from '@lokalise/node-api'
 
-export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => (
-  request
-    .post({
-      url: 'https://lokalise.co/api/project/export',
-      form: {
-        api_token: apiToken,
-        id: projectId,
-        type: 'json',
-        bundle_filename: '%PROJECT_NAME%-intl.zip',
-        bundle_structure: '%LANG_ISO%.%FORMAT%'
-      }
-    },
-    async (err, httpResponse, body) => {
-      if (err) {
-        return reject(err)
-      }
-      if (httpResponse.statusCode >= 400) {
-        return reject(Error(`HTTP Error ${httpResponse.statusCode}`))
-      }
-      const parsed = await JSON.parse(body)
-      if (parsed.response.status === 'error') {
-        return reject(Error(body))
-      }
-      resolve(parsed.bundle.file)
-    })
-))
+export const bundle = async (apiToken, projectId) => {
+  const lokaliseApi = new LokaliseApi({ apiKey: apiToken })
+  const response = await lokaliseApi.files.download(projectId, {
+    format: 'json',
+    bundle_filename: '%PROJECT_NAME%-intl.zip',
+    bundle_structure: '%LANG_ISO%.%FORMAT%'
+  })
+  if (response && response.response) {
+    const apiResponse = response.response
+    if (apiResponse.status === 'success') {
+      return response.bundle.file
+    }
+    if (apiResponse.status === 'error') {
+      throw new Error(apiResponse.status)
+    }
+  }
+  throw new Error(`Invalid response: ${JSON.stringify(response)}`)
+}
