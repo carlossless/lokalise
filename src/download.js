@@ -1,8 +1,8 @@
 import request from 'request'
 import unzpr from 'unzip-stream'
 
-export const archive = (filename, outputPath) => new Promise((resolve, reject) => {
-  const req = request.get(`https://s3-eu-west-1.amazonaws.com/lokalise-assets/${filename}`)
+export const archive = (fileUrl, outputPath) => new Promise((resolve, reject) => {
+  const req = request.get(fileUrl)
     .on('response', function (response) {
       if (response.statusCode >= 400) {
         req.destroy()

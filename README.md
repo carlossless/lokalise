@@ -51,3 +51,7 @@ You can configure the format of the keys file to suit your needs by passing the 
   flow: [boolean] (optional, default false) if true adds a //@flow annotation at the top so that the keys can be used with flow type checking
 }
 ```
+
+## Contributing
+
+Thanks for wanting to contribute! Take a look at our [Contributing Guide](CONTRIBUTING.md) for notes and how to run tests.

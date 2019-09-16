@@ -6,10 +6,13 @@ import fs from 'fs-extra'
 import path from 'path'
 
 const outputDir = 'output_test'
+const baseUrl = 'https://s3-eu-west-1.amazonaws.com'
+const pathUrl = '/lokalise-assets/test.zip'
+const fullUrl = `${baseUrl}${pathUrl}`
 
 const mockTransaction = () => (
-  nock('https://s3-eu-west-1.amazonaws.com')
-    .get('/lokalise-assets/test.zip')
+  nock(baseUrl)
+    .get(pathUrl)
 )
 
 describe('download', () => {
@@ -37,7 +40,7 @@ describe('download', () => {
         { 'Content-Type': 'application/octet-stream' }
       )
 
-      await download.archive('test.zip', outputDir)
+      await download.archive(fullUrl, outputDir)
 
       expect(fs.existsSync(outputDir)).toEqual(true)
       expect(fs.readdirSync(outputDir)).toEqual(expect.arrayContaining([
@@ -59,21 +62,21 @@ describe('download', () => {
         { 'Content-Type': 'application/octet-stream' }
       )
 
-      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+      await expect(download.archive(fullUrl, outputDir)).rejects.toBeInstanceOf(Error)
     })
 
     it('throws when response has non successful code', async () => {
       expect.assertions(1)
       mockTransaction().reply(400, 'Not Found')
 
-      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+      await expect(download.archive(fullUrl, outputDir)).rejects.toBeInstanceOf(Error)
     })
 
     it('throws when response has non zip content-type', async () => {
       expect.assertions(1)
       mockTransaction().reply(200, 'Not a zip file!', { 'Content-Type': 'text/plain' })
 
-      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+      await expect(download.archive(fullUrl, outputDir)).rejects.toBeInstanceOf(Error)
     })
   })
 })
