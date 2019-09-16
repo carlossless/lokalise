@@ -1,3 +1,17 @@
+## Formatting & linting
+This project formats its source code using Standard JS. You can use `--fix` to automatically format your code
+
+```ssh-session
+yarn lint --fix
+```
+
+
+## Running Tests
+
+```sh-session
+yarn test
+```
+
 ## How to try a development build of Lokalise in another project
 
 To link `lokalise` on the command line to `bin/lokalise.js` in a development build:
