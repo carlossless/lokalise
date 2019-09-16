@@ -27,7 +27,7 @@ const mockTransaction = () => (
       'content-type': 'application/json'
     }
   })
-  .post(`/files/download`, )
+    .post(`/files/download`)
 )
 
 describe('request', () => {
