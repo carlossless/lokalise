@@ -37,7 +37,7 @@ describe('download', () => {
         { 'Content-Type': 'application/octet-stream' }
       )
 
-      await download.archive('test.zip', outputDir)
+      await download.archive('https://s3-eu-west-1.amazonaws.com/lokalise-assets/test.zip', outputDir)
 
       expect(fs.existsSync(outputDir)).toEqual(true)
       expect(fs.readdirSync(outputDir)).toEqual(expect.arrayContaining([
@@ -59,21 +59,21 @@ describe('download', () => {
         { 'Content-Type': 'application/octet-stream' }
       )
 
-      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+      await expect(download.archive('https://s3-eu-west-1.amazonaws.com/lokalise-assets/test.zip', outputDir)).rejects.toBeInstanceOf(Error)
     })
 
     it('throws when response has non successful code', async () => {
       expect.assertions(1)
       mockTransaction().reply(400, 'Not Found')
 
-      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+      await expect(download.archive('https://s3-eu-west-1.amazonaws.com/lokalise-assets/test.zip', outputDir)).rejects.toBeInstanceOf(Error)
     })
 
     it('throws when response has non zip content-type', async () => {
       expect.assertions(1)
       mockTransaction().reply(200, 'Not a zip file!', { 'Content-Type': 'text/plain' })
 
-      await expect(download.archive('test.zip', outputDir)).rejects.toBeInstanceOf(Error)
+      await expect(download.archive('https://s3-eu-west-1.amazonaws.com/lokalise-assets/test.zip', outputDir)).rejects.toBeInstanceOf(Error)
     })
   })
 })

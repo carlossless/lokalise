@@ -27,7 +27,6 @@
     ]
   },
   "dependencies": {
-    "@lokalise/node-api": "^1.2.0",
     "babel-polyfill": "^6.23.0",
     "fs-extra": "^8.1.0",
     "glob-promise": "^3.4.0",

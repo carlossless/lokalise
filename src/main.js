@@ -28,6 +28,7 @@ module.exports = async () => {
     console.error('Localization updated')
   } catch (err) {
     console.error('Localization update failed')
+    console.error(err)
     throw err
   }
 }
