@@ -6,8 +6,10 @@ export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => 
       url: `https://api.lokalise.com/api2/projects/${projectId}/files/download`,
       json: true,
       body: {
-        "format": "json",
-        "original_filenames": true
+        format: 'json',
+        original_filenames: false,
+        bundle_filename: '%PROJECT_NAME%-intl.zip',
+        bundle_structure: '%LANG_ISO%.%FORMAT%'
       },
       headers: {
         'x-api-token': apiToken,
@@ -21,6 +23,10 @@ export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => 
       if (httpResponse.statusCode >= 400) {
         return reject(Error(`HTTP Error ${httpResponse.statusCode}`))
       }
+      if (body.response && body.response.status === 'error') {
+        return reject(Error(body))
+      }
+
       resolve(body.bundle_url)
     })
 ))
