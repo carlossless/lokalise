@@ -8,8 +8,7 @@ const projectId = 'projectId'
 
 const responses = {
   error: {
-    response: {
-      status: 'error',
+    error: {
       code: '4040',
       message: 'Project owner needs to upgrade subscription to access API'
     }
@@ -52,14 +51,14 @@ describe('request', () => {
       expect.assertions(1)
       mockTransaction().reply(400, {})
 
-      await expect(request.bundle(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+      await expect(request.bundle(apiToken, projectId)).rejects.toThrowError('HTTP Error 400')
     })
 
     it('throws if the payload has an error payload', async () => {
       expect.assertions(1)
-      mockTransaction().reply(200, responses.error)
+      mockTransaction().reply(400, responses.error)
 
-      await expect(request.bundle(apiToken, projectId)).rejects.toBeInstanceOf(Error)
+      await expect(request.bundle(apiToken, projectId)).rejects.toThrowError('API Error: Project owner needs to upgrade subscription to access API')
     })
 
     it('throws if request encountered an error', async () => {

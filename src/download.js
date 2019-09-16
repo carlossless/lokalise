@@ -1,8 +1,8 @@
 import request from 'request'
 import unzpr from 'unzip-stream'
 
-export const archive = (fileUrl, outputPath) => new Promise((resolve, reject) => {
-  const req = request.get(fileUrl)
+export const archive = (url, outputPath) => new Promise((resolve, reject) => {
+  const req = request.get(url)
     .on('response', function (response) {
       if (response.statusCode >= 400) {
         req.destroy()
