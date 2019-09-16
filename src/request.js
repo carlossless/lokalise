@@ -3,13 +3,15 @@ import request from 'request'
 export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => (
   request
     .post({
-      url: 'https://lokalise.co/api/project/export',
-      form: {
-        api_token: apiToken,
-        id: projectId,
-        type: 'json',
-        bundle_filename: '%PROJECT_NAME%-intl.zip',
-        bundle_structure: '%LANG_ISO%.%FORMAT%'
+      url: `https://api.lokalise.com/api2/projects/${projectId}/files/download`,
+      json: true,
+      body: {
+        "format": "json",
+        "original_filenames": true
+      },
+      headers: {
+        'x-api-token': apiToken,
+        'content-type': 'application/json'
       }
     },
     async (err, httpResponse, body) => {
@@ -19,10 +21,6 @@ export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => 
       if (httpResponse.statusCode >= 400) {
         return reject(Error(`HTTP Error ${httpResponse.statusCode}`))
       }
-      const parsed = await JSON.parse(body)
-      if (parsed.response.status === 'error') {
-        return reject(Error(body))
-      }
-      resolve(parsed.bundle.file)
+      resolve(body.bundle_url)
     })
 ))
