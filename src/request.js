@@ -27,10 +27,6 @@ export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => 
           return reject(new Error(`HTTP Error ${httpResponse.statusCode}`))
         }
       }
-      if (body.response && body.response.status === 'error') {
-        return reject(new Error(body))
-      }
-
       resolve(body.bundle_url)
     })
 ))
