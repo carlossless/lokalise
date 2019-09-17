@@ -8,6 +8,7 @@ export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => 
       body: {
         format: 'json',
         original_filenames: false,
+        replace_breaks: false,
         bundle_filename: '%PROJECT_NAME%-intl.zip',
         bundle_structure: '%LANG_ISO%.%FORMAT%'
       },
