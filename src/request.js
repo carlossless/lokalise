@@ -21,12 +21,12 @@ export const bundle = (apiToken, projectId) => new Promise((resolve, reject) => 
         return reject(err)
       }
       if (httpResponse.statusCode >= 400) {
-        return reject(Error(`HTTP Error ${httpResponse.statusCode}`))
+        if (body && body.error && body.error.message) {
+          return reject(new Error(`API Error: ${body.error.message}`))
+        } else {
+          return reject(new Error(`HTTP Error ${httpResponse.statusCode}`))
+        }
       }
-      if (body.response && body.response.status === 'error') {
-        return reject(Error(body))
-      }
-
       resolve(body.bundle_url)
     })
 ))
