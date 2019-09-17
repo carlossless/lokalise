@@ -7,7 +7,7 @@ import generateKeys from './generation/keys'
 
 module.exports = async () => {
   program
-    .version('0.0.7')
+    .version('0.0.8')
     .usage('[options] [config.json]')
     .description('Lokali.se client for retrieving localization files.')
     .option('-t, --token <token>', 'set the api token')

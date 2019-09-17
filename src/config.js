@@ -34,7 +34,7 @@ const fetchFileConfig = async (file) => {
 }
 
 const fetchEnvironmentConfig = () => {
-  let config = {}
+  const config = {}
   if (process.env.LOKALISE_TOKEN) {
     config.token = process.env.LOKALISE_TOKEN
   }

@@ -26,7 +26,13 @@ const mockTransaction = () => (
       'content-type': 'application/json'
     }
   })
-    .post(`/files/download`)
+    .post('/files/download', {
+      format: 'json',
+      original_filenames: false,
+      replace_breaks: false,
+      bundle_filename: '%PROJECT_NAME%-intl.zip',
+      bundle_structure: '%LANG_ISO%.%FORMAT%'
+    })
 )
 
 describe('request', () => {
