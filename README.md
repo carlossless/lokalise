@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.org/carlossless/lokalise.svg?branch=master)](https://travis-ci.org/carlossless/lokalise) [![codecov](https://codecov.io/gh/carlossless/lokalise/branch/master/graph/badge.svg)](https://codecov.io/gh/carlossless/lokalise) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+# ⚠️ Deprecation Notice
+
+Due to lokalise offering their own cli tool [lokalise-cli-2-go](https://github.com/lokalise/lokalise-cli-2-go), I no longer see a need for this one and will stop maintaining it.
 
 # lokalise
 
